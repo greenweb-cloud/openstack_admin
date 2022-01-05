@@ -6,10 +6,10 @@ import sys
 
 app = Flask(__name__)
 class OpenstackAdmin:
-    def __init__(self,project_id="null"):
-        self.project_id = project_id
-        self.command_reset_status= f"source /root/openrc; nova reset-state %s"%(project_id)
-        self.command_active= f"source /root/openrc; nova reset-state --active %s"%(project_id)
+    def __init__(self,instance_id="null"):
+        self.instance_id = instance_id
+        self.command_reset_status= f"source /root/openrc; nova reset-state %s"%(instance_id)
+        self.command_active= f"source /root/openrc; nova reset-state --active %s"%(instance_id)
         self.host="infra1_utility_container_ip"
 
     
@@ -36,7 +36,7 @@ def reset_status():
     try:
         res = request.get_json()["server"]
         print("request",res)
-        server = OpenstackAdmin(res["project_id"])
+        server = OpenstackAdmin(res["instance_id"])
         res = server.reste_status()
         if res:
             return success_result("success","Reset status")
@@ -54,7 +54,7 @@ def reset_states_active():
     try:
         res = request.get_json()["server"]
         print("request",res)
-        server = OpenstackAdmin(res["project_id"])
+        server = OpenstackAdmin(res["instance_id"])
         res = server.reset_state_active()
         if res:
             return success_result("success","reset status")
