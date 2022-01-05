@@ -5,7 +5,7 @@ Openstack Administrator, You can reset status instance when there are some error
 # api Address
 
 #### address api
-
+```
 http://{{ip}}:8586/v1/server/reset_status
 http://{{ip}}:8586/v1/server/reset_states_active
 
@@ -18,4 +18,4 @@ http://{{ip}}:8586/v1/server/reset_states_active
 
 }
 
-
+```
