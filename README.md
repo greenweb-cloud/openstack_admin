@@ -12,7 +12,7 @@ http://{{ip}}:8586/v1/server/reset_states_active
 {
 
 "server":{
-"project_id":"bb79ac6f-9a49-4543-a326-9853e8320d59"
+"instance_id":"bb79ac6f-9a49-4543-a326-9853e8320d59"
 
 }
 
