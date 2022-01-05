@@ -1,0 +1,14 @@
+[Unit]
+Description=Test Service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/reset_status_instance.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
+
+
+
