@@ -3,14 +3,14 @@
 from flask import Flask, jsonify, request, Response, json, abort
 import subprocess
 import sys
-
+import requests
 app = Flask(__name__)
 class OpenstackAdmin:
     def __init__(self,instance_id="null"):
         self.instance_id = instance_id
         self.command_reset_status= f"source /root/openrc; nova reset-state %s"%(instance_id)
         self.command_active= f"source /root/openrc; nova reset-state --active %s"%(instance_id)
-        self.host="infra1_utility_container_ip"
+        self.host="utility_ip"
 
     
 
@@ -49,7 +49,7 @@ def reset_status():
 
 
 
-@app.route('/v1/server/reset_states_active',methods=['POST'])
+@app.route('/v1/server/reset_states_active',methods=['GET'])
 def reset_states_active():
     try:
         res = request.get_json()["server"]
@@ -64,6 +64,26 @@ def reset_states_active():
     except Exception as e:
 #        return error_result("fail","key error missing %s"%e) 
         raise InvalidUsage(error_result("fail","key error missing %s"%e),status_code=400)
+
+
+
+#################################################################################################33
+
+@app.route('/v1/server/tbz_up',methods=['GET'])
+def tbz_up():
+    try:
+        key =  args = request.args["key"]
+        status =  args = request.args["status"]
+        x = requests.get('https://api.gportal/check',params={"key":key,"status":status })
+        return success_result("success",status)
+
+    except Exception as e:
+#        return error_result("fail","key error missing %s"%e) 
+        raise InvalidUsage(error_result("fail","key error missing %s"%e),status_code=400)
+
+
+
+
 
 
 
