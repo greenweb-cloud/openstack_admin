@@ -1,0 +1,25 @@
+#MySQL down
+  - alert: OpenStack.tbz.greenweb.local, Cloud-problem MysqlDown Webhook
+    expr: changes(mysql_up[2m]) > 0 and mysql_up == 0
+    for: 1m
+    labels:
+      service: mysql-down
+      severity: critical
+      alertgp: cloud-job
+
+    annotations:
+      summary: " OpenStack.tbz.greenweb.local, Cloud-problem to  MySQL down (instance {{ $labels.instance }})"
+      description: "OpenStack.tbz.greenweb.local, Cloud-problem to MySQL instance is down on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+#MySQL UP
+  - alert: OpenStack.tbz.greenweb.local, Cloud-problem MysqlUP Webhook
+    expr: changes(mysql_up[2m]) > 0 and mysql_up == 1
+    for: 1m
+    labels:
+      service: mysql-up
+      severity: critical
+      alertgp: cloud-job
+
+    annotations:
+      summary: " OpenStack.tbz.greenweb.local, Cloud-problem to  MySQL UP (instance {{ $labels.instance }})"
+      description: "OpenStack.tbz.greenweb.local, Cloud-problem to MySQL instance is UP on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
