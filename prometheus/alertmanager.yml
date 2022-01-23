@@ -1,0 +1,55 @@
+
+global:
+  smtp_smarthost: 'localhost:25'
+  smtp_from: 'mail@domain.ir'
+  smtp_auth_username: ''
+  smtp_auth_password: ''
+  smtp_require_tls: false
+
+templates:
+- '/etc/alertmanager/template/*.tmpl'
+
+
+
+
+# The root route on which each incoming alert enters.
+route:
+  group_by: ['alertgp']
+  group_wait: 60s
+  group_interval: 2m
+  repeat_interval: 100h
+  routes:
+  - match_re:
+      service: (mysql-up)
+    receiver: mysql-up
+
+  - match_re:
+      service: (mysql-down)
+    receiver: mysql-down
+receivers:
+
+
+
+##### Change 192.168.115.1 to your Openstack exlb vip adrress .
+- name: 'mysql-up'
+  webhook_configs:
+      - send_resolved: false
+        url: 'http://192.168.115.1:8586/v1/server/tbz_up?key=TBZ_1&status=up'
+  email_configs:
+  - to: 'my@mail.com'
+    headers:
+      subject: 'Mysql UP'
+      To: 'my@mail.com'
+
+
+
+- name: 'mysql-down'
+  webhook_configs:
+      - send_resolved: false
+        url: 'http://192.168.115.1:8586/v1/server/tbz_up?key=TBZ_1&status=down'
+  email_configs:
+  - to: 'my@mail.com'
+    headers:
+      subject: 'Mysql Down'
+      To: 'my@mail.com'
+
