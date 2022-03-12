@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from flask import Flask, jsonify, request, Response, json, abort
+import os
 import subprocess
 import sys
 import requests
@@ -28,7 +29,10 @@ class OpenstackAdmin:
         else:
             return False
 
-
+@app.route('/v1/server/reset_keepalived',methods=['POST'])
+def reset_keepalived():
+    os.system("systemctl restart keepalived.service")
+    return success_result("success","reset keepalived")
 
 
 @app.route('/v1/server/reset_status',methods=['POST'])
